@@ -7,6 +7,7 @@ public class Main {
         System.out.println("What language?");
         System.out.println("English: 1, Finnish: 2, Swedish: 3, Japanese: 4");
         int language = sc.nextInt();
+        sc.close();
 
         switch (language) {
             case 1:
