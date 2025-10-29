@@ -11,8 +11,10 @@ public class OutputGenerator {
         if (languageCode != null && !languageCode.isEmpty()) {
             String normalized = languageCode.replace('-', '_');
             String[] parts = normalized.split("_");
-            if (parts.length >= 1) lang = parts[0];
-            if (parts.length >= 2) country = parts[1];
+            if (parts.length >= 1)
+                lang = parts[0];
+            if (parts.length >= 2)
+                country = parts[1];
         }
         lang = (lang == null) ? "" : lang.toLowerCase();
         country = (country == null) ? "" : country.toUpperCase();
