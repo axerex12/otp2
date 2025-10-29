@@ -96,7 +96,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>Main</mainClass>
+                            <mainClass>ShoppingCart</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
