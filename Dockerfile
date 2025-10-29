@@ -16,7 +16,7 @@ RUN mvn clean package -DskipTests
 RUN ls -la target/
 
 # Verify the jar file is executable
-RUN test -f target/TemperatureConverter.jar && echo "JAR file exists" || echo "JAR file missing"
+RUN test -f target/ShoppingCart.jar && echo "JAR file exists" || echo "JAR file missing"
 
 # Run the application
 CMD ["java", "-jar", "target/ShoppingCart.jar"]
