@@ -1,62 +1,82 @@
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.Scanner;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
-public class ShoppingCart {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+public class ShoppingCart extends Application {
 
-        Locale locale = selectLanguage(scanner);
+        Label item1 = new Label("Item 1:");
+        TextField item1Field = new TextField();
+        Label item2 = new Label("Item 2:");
+        TextField item2Field = new TextField();
+        Label item1cost = new Label("Cost 1:");
+        TextField item1costField = new TextField();
+        Label item2cost = new Label("Cost 2:");
+        TextField item2costField = new TextField();
+        Button calculateButton = new Button("Calculate Total");
+        ComboBox<String> languageSelector = new ComboBox<>();
+        Label totalLabel = new Label("Total Cost: ");
 
-        System.out.println(getLocalizedMessage(locale, "enter.number.of.items"));
-        int numItems = scanner.nextInt();
+    @Override
+    public void start(Stage primaryStage) {
+        languageSelector.getItems().addAll("English", "Finnish", "Swedish", "Japanese");
+        primaryStage.setTitle("Shopping Cart");
+        languageSelector.setOnAction(e -> {
+            String selected = languageSelector.getValue();
+            Locale locale;
+            switch (selected) {
+                case "Finnish":
+                    locale = new Locale("fi", "FI");
+                    break;
+                case "Swedish":
+                    locale = new Locale("sv", "SE");
+                    break;
+                case "Japanese":
+                    locale = new Locale("ja", "JP");
+                    break;
+                default:
+                    locale = new Locale("en", "US");
+                    break;
+            }
+            changeLanguage(locale);
+        });
+        calculateButton.setOnAction(e -> calculateItemCost());
 
-        double totalCost = 0;
+        VBox root = new VBox();
+        Scene scene = new Scene(root, 400, 300);
 
-        for (int i = 1; i <= numItems; i++) {
-            System.out.println(getLocalizedMessage(locale, "enter.price.for.item") + " " + i + ":");
-            double price = scanner.nextDouble();
-
-            System.out.println(getLocalizedMessage(locale, "enter.quantity.for.item") + " " + i + ":");
-            int quantity = scanner.nextInt();
-
-            totalCost += calculateItemCost(price, quantity);
-        }
-
-        System.out.println(getLocalizedMessage(locale, "total.cost") + " " + totalCost);
+        root.getChildren().addAll(languageSelector, item1, item1Field, item1cost, item1costField, item2, item2Field, item2cost, item2costField, calculateButton, totalLabel);
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
-
-
-    public static Locale selectLanguage(Scanner scanner) {
-        System.out.println("Select Language / Valitse kieli / Välj språk / 言語を選択してください:");
-        System.out.println("1. English");
-        System.out.println("2. Finnish");
-        System.out.println("3. Swedish");
-        System.out.println("4. Japanese");
-
-        int choice = scanner.nextInt();
-        String language = "en";
-        String country = "US";
-
-        switch (choice) {
-            case 2:
-                language = "fi"; country = "FI"; break;
-            case 3:
-                language = "sv"; country = "SE"; break;
-            case 4:
-                language = "ja"; country = "JP"; break;
-            default:
-                break;
-        }
-
-        return new Locale(language, country);
-    }
-
-
-    public static String getLocalizedMessage(Locale locale, String key) {
+    public void changeLanguage(Locale locale) {
         ResourceBundle messages = ResourceBundle.getBundle("messages", locale);
-        return messages.getString(key);
+        item1.setText(messages.getString("item.1"));
+        item2.setText(messages.getString("item.2"));
+        item1cost.setText(messages.getString("cost.1"));
+        item2cost.setText(messages.getString("cost.2"));
+        calculateButton.setText(messages.getString("calculate.total"));
+        totalLabel.setText(messages.getString("total.cost") + ": ");
+    }
+
+    public void calculateItemCost() {
+        double price1 = Double.parseDouble(item1costField.getText());
+        int quantity1 = Integer.parseInt(item1Field.getText());
+        double price2 = Double.parseDouble(item2costField.getText());
+        int quantity2 = Integer.parseInt(item2Field.getText());
+
+        double totalCost = calculateItemCost(price1, quantity1) + calculateItemCost(price2, quantity2);
+        totalLabel.setText(String.valueOf(totalCost));
+
+
+    }
+
+    public static void main(String[] args) {
+        launch(args);
     }
 
     public static double calculateItemCost(double price, int quantity) {
