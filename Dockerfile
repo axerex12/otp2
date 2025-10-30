@@ -5,6 +5,8 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y \
     libx11-6 libxext6 libxrender1 libxtst6 libxi6 libgtk-3-0 mesa-utils wget unzip \
     && rm -rf /var/lib/apt/lists/*
+    
+RUN apt-get update && apt-get install -y fonts-noto-cjk
 
 RUN mkdir -p /javafx-sdk \
     && wget -O javafx.zip https://download2.gluonhq.com/openjfx/21.0.2/openjfx-21.0.2_linux-x64_bin-sdk.zip \
