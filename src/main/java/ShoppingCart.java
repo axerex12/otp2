@@ -60,7 +60,7 @@ public class ShoppingCart extends Application {
         item1cost.setText(messages.getString("cost.1"));
         item2cost.setText(messages.getString("cost.2"));
         calculateButton.setText(messages.getString("calculate.total"));
-        totalLabel.setText(messages.getString("total.cost") + ": ");
+        totalLabel.setText(messages.getString("total.cost"));
     }
 
     public void calculateItemCost() {
