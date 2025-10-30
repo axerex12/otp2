@@ -23,7 +23,7 @@ public class ShoppingCart extends Application {
     @Override
     public void start(Stage primaryStage) {
         languageSelector.getItems().addAll("English", "Finnish", "Swedish", "Japanese");
-        primaryStage.setTitle("Shopping Cart");
+        primaryStage.setTitle("Axel Nokireki Shopping Cart");
         languageSelector.setOnAction(e -> {
             String selected = languageSelector.getValue();
             Locale locale;
