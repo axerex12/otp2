@@ -1,4 +1,4 @@
-FROM maven:latest
+FROM openjdk:17-slim
 
 WORKDIR /app
 
@@ -12,12 +12,8 @@ RUN mkdir -p /javafx-sdk \
     && mv /javafx-sdk/javafx-sdk-21.0.2/lib /javafx-sdk/lib \
     && rm -rf /javafx-sdk/javafx-sdk-21.0.2 javafx.zip
 
-COPY pom.xml /app
-
-COPY . /app
-
-RUN mvn clean package -DskipTests
+COPY target/ShoppingCart.jar app.jar
 
 ENV DISPLAY=host.docker.internal:0.0
 
-CMD ["java", "-jar", "target/ShoppingCart.jar"]
+CMD ["java", "--module-path", "/javafx-sdk/lib", "--add-modules", "javafx.controls,javafx.fxml", "-jar", "app.jar"]
